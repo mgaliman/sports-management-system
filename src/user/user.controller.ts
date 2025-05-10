@@ -10,11 +10,11 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Role } from '../auth/roles/roles.enum';
-import { UserService } from './users.service';
+import { UserService } from './user.service';
 
-@ApiTags('Users')
+@ApiTags('User')
 @Controller('user')
-export class UsersController {
+export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @ApiBearerAuth()

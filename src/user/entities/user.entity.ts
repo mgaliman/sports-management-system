@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Role } from '../../auth/roles/roles.enum';
-import { SportClass } from '../../sport-classes/entities/sport-class.entity';
+import { SportClass } from '../../sport-class/entities/sport-class.entity';
 
 @Entity()
 export class User {

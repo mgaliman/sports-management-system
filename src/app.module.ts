@@ -4,10 +4,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { SportClass } from './sport-classes/entities/sport-class.entity';
-import { SportClassesModule } from './sport-classes/sport-classes.module';
-import { User } from './users/entities/user.entity';
-import { UsersModule } from './users/users.module';
+import { SportClass } from './sport-class/entities/sport-class.entity';
+import { SportClassModule } from './sport-class/sport-class.module';
+import { User } from './user/entities/user.entity';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -29,8 +29,8 @@ import { UsersModule } from './users/users.module';
     }),
 
     AuthModule,
-    UsersModule,
-    SportClassesModule,
+    UserModule,
+    SportClassModule,
   ],
   controllers: [AppController],
   providers: [AppService],

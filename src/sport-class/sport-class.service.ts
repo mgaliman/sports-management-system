@@ -5,13 +5,13 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
-import { User } from '../users/entities/user.entity';
-import { CreateSportsClassDto } from './dto/create-sports-class.dto';
-import { UpdateSportsClassDto } from './dto/update-sports-class.dto';
+import { User } from '../user/entities/user.entity';
+import { CreateSportClassDto } from './dto/create-sport-class.dto';
+import { UpdateSportClassDto } from './dto/update-sports-class.dto';
 import { SportClass } from './entities/sport-class.entity';
 
 @Injectable()
-export class SportClassesService {
+export class SportClassService {
   constructor(
     @InjectRepository(SportClass)
     private readonly repo: Repository<SportClass>,
@@ -36,12 +36,12 @@ export class SportClassesService {
     return this.repo.findOne({ where: { id } });
   }
 
-  public async createSportClass(data: CreateSportsClassDto, createdBy: string) {
+  public async createSportClass(data: CreateSportClassDto, createdBy: string) {
     const newClass = this.repo.create({ ...data, createdBy });
     return this.repo.save(newClass);
   }
 
-  public async updateSportClass(id: number, dto: UpdateSportsClassDto) {
+  public async updateSportClass(id: number, dto: UpdateSportClassDto) {
     const classToUpdate = await this.repo.findOne({ where: { id } });
 
     if (!classToUpdate) {
@@ -90,7 +90,7 @@ export class SportClassesService {
     }
 
     sportClass.applicants.push(user);
-    return this.repo.save(sportClass);
+    return { sportClass, message: 'Application successful' };
   }
 
   public async getApplicants(classId: number) {

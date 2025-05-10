@@ -1,6 +1,6 @@
 import { IsArray, IsNumber, IsString } from 'class-validator';
 
-export class CreateSportsClassDto {
+export class CreateSportClassDto {
   @IsString()
   title: string;
 

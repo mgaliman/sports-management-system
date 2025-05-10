@@ -16,14 +16,14 @@ import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Role } from '../auth/roles/roles.enum';
-import { CreateSportsClassDto } from './dto/create-sports-class.dto';
-import { UpdateSportsClassDto } from './dto/update-sports-class.dto';
-import { SportClassesService } from './sport-classes.service';
+import { SportClassService } from '../sport-class/sport-class.service';
+import { CreateSportClassDto } from './dto/create-sport-class.dto';
+import { UpdateSportClassDto } from './dto/update-sports-class.dto';
 
-@ApiTags('Sport Classes')
+@ApiTags('Sport Class')
 @Controller('classes')
-export class SportClassesController {
-  constructor(private readonly service: SportClassesService) {}
+export class SportClassController {
+  constructor(private readonly service: SportClassService) {}
 
   @Get()
   public getAll(@Query('sport') sport?: string) {
@@ -44,7 +44,7 @@ export class SportClassesController {
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(Role.Admin)
   @Post()
-  public create(@Body() dto: CreateSportsClassDto, @CurrentUser() user) {
+  public create(@Body() dto: CreateSportClassDto, @CurrentUser() user) {
     return this.service.createSportClass(dto, user.email);
   }
 
@@ -52,7 +52,7 @@ export class SportClassesController {
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(Role.Admin)
   @Patch(':id')
-  public update(@Param('id') id: number, @Body() dto: UpdateSportsClassDto) {
+  public update(@Param('id') id: number, @Body() dto: UpdateSportClassDto) {
     return this.service.updateSportClass(+id, dto);
   }
 

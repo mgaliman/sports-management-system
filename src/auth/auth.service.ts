@@ -5,29 +5,29 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { UserService } from '../users/users.service';
+import { UserService } from '../user/user.service';
 import { LoginUserDto } from './dto/login-user.dto';
 import { RegisterUserDto } from './dto/register-user.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly usersService: UserService,
+    private readonly userService: UserService,
     private readonly jwtService: JwtService,
   ) {}
 
   public async register(dto: RegisterUserDto) {
-    const existing = await this.usersService.findByEmail(dto.email);
+    const existing = await this.userService.findByEmail(dto.email);
     if (existing) {
       throw new ConflictException('Email already in use');
     }
 
     const hashedPassword = await bcrypt.hash(dto.password, 10);
-    return this.usersService.createUser(dto.email, hashedPassword);
+    return this.userService.createUser(dto.email, hashedPassword);
   }
 
   public async login(dto: LoginUserDto) {
-    const user = await this.usersService.findByEmail(dto.email);
+    const user = await this.userService.findByEmail(dto.email);
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }

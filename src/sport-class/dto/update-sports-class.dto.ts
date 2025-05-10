@@ -1,6 +1,6 @@
 import { IsArray, IsNumber, IsOptional, IsString } from 'class-validator';
 
-export class UpdateSportsClassDto {
+export class UpdateSportClassDto {
   @IsOptional()
   @IsString()
   title?: string;
