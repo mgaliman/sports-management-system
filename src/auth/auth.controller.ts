@@ -2,8 +2,11 @@ import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
+import { Roles } from './decorators/roles.decorator';
 import { LoginUserDto } from './dto/login-user.dto';
 import { RegisterUserDto } from './dto/register-user.dto';
+import { RolesGuard } from './guards/roles.guard';
+import { Role } from './roles/roles.enum';
 
 @Controller('auth')
 export class AuthController {
@@ -23,5 +26,12 @@ export class AuthController {
   @Get('me')
   public getMe(@CurrentUser() user) {
     return user;
+  }
+
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(Role.Admin)
+  @Get('admin-only')
+  public getAdminData() {
+    return 'Only admin can see this';
   }
 }
