@@ -4,8 +4,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/users/entities/user.entity';
 import { In, Repository } from 'typeorm';
+import { User } from '../users/entities/user.entity';
 import { CreateSportsClassDto } from './dto/create-sports-class.dto';
 import { UpdateSportsClassDto } from './dto/update-sports-class.dto';
 import { SportClass } from './entities/sport-class.entity';
@@ -75,6 +75,8 @@ export class SportClassesService {
     // Check if user already applied
     const alreadyApplied = sportClass.applicants.some((a) => a.id === userId);
     if (alreadyApplied) {
+      console.log('Applicants:', sportClass.applicants);
+      console.log('Already applied?', alreadyApplied);
       throw new BadRequestException('You have already applied for this class');
     }
 

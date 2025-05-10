@@ -1,5 +1,3 @@
-import { Role } from 'src/auth/roles/roles.enum';
-import { SportClass } from 'src/sport-classes/entities/sport-class.entity';
 import {
   Column,
   Entity,
@@ -7,6 +5,8 @@ import {
   ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Role } from '../../auth/roles/roles.enum';
+import { SportClass } from '../../sport-classes/entities/sport-class.entity';
 
 @Entity()
 export class User {
