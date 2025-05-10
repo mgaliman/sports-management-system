@@ -4,7 +4,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { User } from './users/user.entity';
+import { SportClass } from './sport-classes/entities/sport-class.entity';
+import { SportClassesModule } from './sport-classes/sport-classes.module';
+import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -21,13 +23,14 @@ import { UsersModule } from './users/users.module';
         username: config.get('DB_USERNAME'),
         password: config.get('DB_PASSWORD'),
         database: config.get('DB_NAME'),
-        entities: [User],
+        entities: [User, SportClass],
         synchronize: true, // auto create tables in dev
       }),
     }),
 
     AuthModule,
     UsersModule,
+    SportClassesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
