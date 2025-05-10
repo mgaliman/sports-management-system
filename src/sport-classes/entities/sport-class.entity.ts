@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/users/entities/user.entity';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class SportClass {
@@ -24,5 +25,8 @@ export class SportClass {
   public createdAt: Date;
 
   @Column({ nullable: true })
-  createdBy: string;
+  public createdBy: string;
+
+  @ManyToMany(() => User, (user) => user.appliedClasses)
+  public applicants: User[];
 }

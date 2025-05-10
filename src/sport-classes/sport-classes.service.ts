@@ -1,5 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'src/users/entities/user.entity';
 import { In, Repository } from 'typeorm';
 import { CreateSportsClassDto } from './dto/create-sports-class.dto';
 import { UpdateSportsClassDto } from './dto/update-sports-class.dto';
@@ -10,6 +15,8 @@ export class SportClassesService {
   constructor(
     @InjectRepository(SportClass)
     private readonly repo: Repository<SportClass>,
+    @InjectRepository(User)
+    private readonly userRepo: Repository<User>,
   ) {}
 
   public async getSportClasses(sport?: string) {
@@ -53,5 +60,51 @@ export class SportClassesService {
     }
 
     return this.repo.remove(classToDelete);
+  }
+
+  public async applyUserToSportClass(classId: number, userId: number) {
+    const sportClass = await this.repo.findOne({
+      where: { id: classId },
+      relations: ['applicants'],
+    });
+
+    if (!sportClass) {
+      throw new NotFoundException('Class not found');
+    }
+
+    // Check if user already applied
+    const alreadyApplied = sportClass.applicants.some((a) => a.id === userId);
+    if (alreadyApplied) {
+      throw new BadRequestException('You have already applied for this class');
+    }
+
+    // Fetch user
+    const user = await this.userRepo.findOne({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    sportClass.applicants.push(user);
+    return this.repo.save(sportClass);
+  }
+
+  public async getApplicants(classId: number) {
+    const sportClass = await this.repo.findOne({
+      where: { id: classId },
+      relations: ['applicants'],
+    });
+
+    if (!sportClass) {
+      throw new NotFoundException('Class not found');
+    }
+
+    return sportClass.applicants.map((user) => ({
+      id: user.id,
+      email: user.email,
+      role: user.role,
+    }));
   }
 }

@@ -1,17 +1,30 @@
 import { Role } from 'src/auth/roles/roles.enum';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { SportClass } from 'src/sport-classes/entities/sport-class.entity';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  public id: number;
 
   @Column({ unique: true })
-  email: string;
+  public email: string;
 
   @Column()
-  password: string;
+  public password: string;
 
   @Column({ type: 'enum', enum: Role, default: Role.User })
-  role: Role;
+  public role: Role;
+
+  @ManyToMany(() => SportClass, (sportClass) => sportClass.applicants, {
+    cascade: true,
+  })
+  @JoinTable()
+  public appliedClasses: SportClass[];
 }
