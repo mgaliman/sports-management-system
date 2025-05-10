@@ -11,6 +11,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
@@ -19,6 +20,7 @@ import { CreateSportsClassDto } from './dto/create-sports-class.dto';
 import { UpdateSportsClassDto } from './dto/update-sports-class.dto';
 import { SportClassesService } from './sport-classes.service';
 
+@ApiTags('Sport Classes')
 @Controller('classes')
 export class SportClassesController {
   constructor(private readonly service: SportClassesService) {}
@@ -34,10 +36,11 @@ export class SportClassesController {
   }
 
   // @Post('seed')
-  // public createTestClass(@Body() dto: SportClass) {
+  // public createTestSportClass(@Body() dto: SportClass) {
   //   return this.service.createSportClass(dto, 'test@dummy.com');
   // }
 
+  @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(Role.Admin)
   @Post()
@@ -45,6 +48,7 @@ export class SportClassesController {
     return this.service.createSportClass(dto, user.email);
   }
 
+  @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(Role.Admin)
   @Patch(':id')
@@ -52,6 +56,7 @@ export class SportClassesController {
     return this.service.updateSportClass(+id, dto);
   }
 
+  @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(Role.Admin)
   @Delete(':id')
@@ -59,6 +64,7 @@ export class SportClassesController {
     return this.service.deleteSportClass(id);
   }
 
+  @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Post(':id/apply')
   public applyToClass(
@@ -68,6 +74,7 @@ export class SportClassesController {
     return this.service.applyUserToSportClass(id, user.id);
   }
 
+  @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(Role.Admin)
   @Get(':id/applicants')
