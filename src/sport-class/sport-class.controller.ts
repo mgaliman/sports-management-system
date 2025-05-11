@@ -17,6 +17,7 @@ import { Roles } from '../auth/decorators/roles.decorator';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Role } from '../auth/roles/roles.enum';
 import { SportClassService } from '../sport-class/sport-class.service';
+import { User } from '../user/entities/user.entity';
 import { CreateSportClassDto } from './dto/create-sport-class.dto';
 import { UpdateSportClassDto } from './dto/update-sports-class.dto';
 
@@ -44,7 +45,7 @@ export class SportClassController {
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(Role.Admin)
   @Post()
-  public create(@Body() dto: CreateSportClassDto, @CurrentUser() user) {
+  public create(@Body() dto: CreateSportClassDto, @CurrentUser() user: User) {
     return this.service.createSportClass(dto, user.email);
   }
 

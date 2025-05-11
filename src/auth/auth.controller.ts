@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { User } from '../user/entities/user.entity';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -24,7 +25,7 @@ export class AuthController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Get('me')
-  public getMe(@CurrentUser() user) {
+  public getMe(@CurrentUser() user: User) {
     return user;
   }
 }

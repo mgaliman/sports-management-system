@@ -7,29 +7,31 @@ import { User } from './entities/user.entity';
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private readonly repo: Repository<User>,
+    private readonly userRepo: Repository<User>,
   ) {}
 
   public async findByEmail(email: string): Promise<User | null> {
-    return this.repo.findOne({ where: { email } });
+    const user = await this.userRepo.findOne({ where: { email } });
+    return user || null;
   }
 
   public async createUser(
     email: string,
     hashedPassword: string,
-  ): Promise<User> {
-    const user = this.repo.create({ email, password: hashedPassword });
-    return this.repo.save(user);
+  ): Promise<{ user: User; message: string }> {
+    const user = this.userRepo.create({ email, password: hashedPassword });
+    await this.userRepo.save(user);
+    return { user, message: 'User created successfully' };
   }
 
   public async deleteUser(id: number): Promise<{ message: string }> {
-    const user = await this.repo.findOne({ where: { id } });
+    const user = await this.userRepo.findOne({ where: { id } });
 
     if (!user) {
       throw new NotFoundException(`User with id ${id} not found`);
     }
 
-    await this.repo.delete(id);
+    await this.userRepo.delete(id);
     return { message: 'User deleted successfully' };
   }
 }

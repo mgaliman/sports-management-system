@@ -39,7 +39,7 @@ describe('Admin (e2e)', () => {
   });
 
   it('should allow admin to create a class', async () => {
-    const res = await request(app.getHttpServer())
+    const response = await request(app.getHttpServer())
       .post('/classes')
       .set('Authorization', `Bearer ${adminToken}`)
       .send({
@@ -50,9 +50,9 @@ describe('Admin (e2e)', () => {
         duration: 60,
       });
 
-    newClassId = res.body.id;
+    newClassId = response.body.class.id;
 
-    expect(res.status).toBe(201);
-    expect(res.body.title).toBe('Test Class');
+    expect(response.status).toBe(201);
+    expect(response.body.class.title).toBe('Test Class');
   });
 });

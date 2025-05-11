@@ -13,7 +13,7 @@ import { Role } from '../auth/roles/roles.enum';
 import { UserService } from './user.service';
 
 @ApiTags('User')
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

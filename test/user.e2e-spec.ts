@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 
-describe('Admin (e2e)', () => {
+describe('User (e2e)', () => {
   let app: INestApplication;
 
   let adminToken: string;
@@ -52,7 +52,7 @@ describe('Admin (e2e)', () => {
 
     const token = login.body.access_token;
 
-    const createRes = await request(app.getHttpServer())
+    const createResponse = await request(app.getHttpServer())
       .post('/classes')
       .set('Authorization', `Bearer ${token}`)
       .send({
@@ -63,15 +63,15 @@ describe('Admin (e2e)', () => {
         duration: 60,
       });
 
-    newClassId = createRes.body.id;
-    expect(createRes.status).toBe(201);
+    newClassId = createResponse.body.class.id;
+    expect(createResponse.status).toBe(201);
   }, 10000);
 
   it('should allow user to apply to a fresh class', async () => {
-    const res = await request(app.getHttpServer())
+    const response = await request(app.getHttpServer())
       .post(`/classes/${newClassId}/apply`)
       .set('Authorization', `Bearer ${userToken}`);
 
-    expect(res.status).toBe(201);
+    expect(response.status).toBe(201);
   });
 });

@@ -24,7 +24,7 @@ describe('Auth (e2e)', () => {
 
   afterAll(async () => {
     const res = await request(app.getHttpServer())
-      .delete(`/user/${newUserId}`)
+      .delete(`/users/${newUserId}`)
       .set('Authorization', `Bearer ${adminToken}`);
 
     expect(res.status).toBe(200);
@@ -50,11 +50,10 @@ describe('Auth (e2e)', () => {
         password: testPassword,
       });
 
-    newUserId = response.body.id;
-    console.log('New user ID:', newUserId);
+    newUserId = response.body.user.id;
 
     expect(response.status).toBe(201);
-    expect(response.body.email).toBe(testEmail);
+    expect(response.body.user.email).toBe(testEmail);
   });
 
   it('should login and return access_token', async () => {
