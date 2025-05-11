@@ -1,0 +1,76 @@
+
+-------------------------------------------------------------------------------------------------------------------------
+ TASKS
+-------------------------------------------------------------------------------------------------------------------------
+
+	 1. Initial Setup
+			✓ Project setup (NestJS, Git structure, modules)
+			✓ Install and configure PostgreSQL
+			✓ Install pgAdmin and create sports_management_db
+			✓ Connect NestJS to the database using .env
+			✓ Create User entity and verify DB structure
+			✓ Verify connection by running the backend
+	
+	2. Core Functionality
+			- Authentication & Authorization:
+				✓ User registration with email and password hashing 
+				✓ Database insert with DTO validation
+				✓ Login with JWT
+				✓ Role-based authorization for managing access (user/admin)
+			
+			- Sports Classes
+				✓ Users can filter and retrieve all sports classes
+					GET /api/classes?sports=Basketball,Football
+				✓ Users can retrieve sport class details
+					GET /api/classes/:id (week schedule, class duration, description)
+				✓ Users can apply to a sport class
+				✓ Admins can manage (CRUD) sports classes
+				
+	 3. Documentation & Extras
+			✓ Swagger API documentation
+			✓ Push project to GitHub
+			✓ Create integration tests
+			✓ Create unit tests
+			✓ In services where is return add message instaed a result only
+			✓ Write a complete README
+			✓ Add draw.io to readme
+
+-------------------------------------------------------------------------------------------------------------------------
+ CMD
+-------------------------------------------------------------------------------------------------------------------------
+
+ # Generate module
+ $ nest g module {name}
+ 
+ # Generate controller
+ $ nest g controller {name}
+ 
+ # Generate service
+ $ nest g service {name}
+
+ # development
+ $ npm run start
+ 
+ # watch mode
+ $ npm run start:dev
+ 
+ # production mode
+ $ npm run start:prod
+ 
+ # unit tests
+ $ npm run test
+ 
+ # e2e tests
+ $ npm run test:e2e
+ 
+ # test coverage
+ $ npm run test:cov
+ 
+ # show output in watch mode
+ $ npm run test:watch
+ 
+ # run specific unit test file
+ $ npm run test -- src/folder/file.service.spec.ts
+ 
+ # run specific e2e test file
+ $ npm run test:e2e -- test/file.e2e-spec.ts
