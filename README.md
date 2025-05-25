@@ -173,4 +173,3 @@ src/
 
 ### Author
 Marko Galiman
-> Future Velere Margins developer
